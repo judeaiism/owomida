@@ -84,7 +84,7 @@ export default function MarketplaceLanding() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-10 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
           <div className="mr-4 flex md:hidden">
@@ -131,177 +131,179 @@ export default function MarketplaceLanding() {
           </div>
         </div>
       </header>
-      <main className="container py-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h1 className="text-3xl font-bold">Marketplace</h1>
-          <Button>Create new listing</Button>
-        </div>
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search Marketplace" className="pl-8" />
+      <main className="flex-grow flex justify-center">
+        <div className="container py-6 max-w-6xl">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <h1 className="text-3xl font-bold">Marketplace</h1>
+            <Button>Create new listing</Button>
           </div>
-          <DropdownMenu open={isCategoryOpen} onOpenChange={setIsCategoryOpen}>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full md:w-[180px] justify-between">
-                All Categories
-                <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuItem>
-                <Users className="mr-2 h-4 w-4" />
-                <span>Buy & sell groups</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bookmark className="mr-2 h-4 w-4" />
-                <span>Saved items</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Top categories</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <Car className="mr-2 h-4 w-4" />
-                <span>Vehicles</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Home className="mr-2 h-4 w-4" />
-                <span>Rentals</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Shirt className="mr-2 h-4 w-4" />
-                <span>Women's Clothing & Shoes</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Shirt className="mr-2 h-4 w-4" />
-                <span>Men's Clothing & Shoes</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                <span>Furniture</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                <span>Electronics</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>All categories</DropdownMenuLabel>
-              {allCategories.map((category, index) => (
-                <DropdownMenuItem key={index}>
-                  <span>{category}</span>
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search Marketplace" className="pl-8" />
+            </div>
+            <DropdownMenu open={isCategoryOpen} onOpenChange={setIsCategoryOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-full md:w-[180px] justify-between">
+                  All Categories
+                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuItem>
+                  <Users className="mr-2 h-4 w-4" />
+                  <span>Buy & sell groups</span>
                 </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem>
+                  <Bookmark className="mr-2 h-4 w-4" />
+                  <span>Saved items</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel>Top categories</DropdownMenuLabel>
+                <DropdownMenuItem>
+                  <Car className="mr-2 h-4 w-4" />
+                  <span>Vehicles</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Home className="mr-2 h-4 w-4" />
+                  <span>Rentals</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Shirt className="mr-2 h-4 w-4" />
+                  <span>Women's Clothing & Shoes</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Shirt className="mr-2 h-4 w-4" />
+                  <span>Men's Clothing & Shoes</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  <span>Furniture</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  <span>Electronics</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel>All categories</DropdownMenuLabel>
+                {allCategories.map((category, index) => (
+                  <DropdownMenuItem key={index}>
+                    <span>{category}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {products.map((product, index) => (
+              <Card key={product.id} ref={index === products.length - 1 ? lastProductElementRef : null}>
+                <CardHeader>
+                  <img
+                    alt={product.name}
+                    className="aspect-square object-cover rounded-md"
+                    height="200"
+                    src={product.image}
+                    width="200"
+                  />
+                </CardHeader>
+                <CardContent>
+                  <CardTitle>{product.name}</CardTitle>
+                  <p className="text-muted-foreground">${product.price.toFixed(2)}</p>
+                </CardContent>
+                <CardFooter>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full">View Details</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>{product.name}</DialogTitle>
+                        <DialogDescription>
+                          Interact with this listing or the seller.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                          onClick={() => console.log('Message seller')}
+                        >
+                          <MessageCircle className="mr-2 h-4 w-4" />
+                          Message seller
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                          onClick={() => console.log('Set alert for listing')}
+                        >
+                          <BellIcon className="mr-2 h-4 w-4" />
+                          Set alert for listing
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="w-full justify-between">
+                              <span className="flex items-center">
+                                <DollarSign className="mr-2 h-4 w-4" />
+                                Send offer
+                              </span>
+                              <ChevronDown className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-56">
+                            <DropdownMenuItem onClick={() => {
+                              setOfferType('percentage')
+                              setIsOfferDialogOpen(true)
+                            }}>
+                              Percentage off
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => {
+                              setOfferType('exact')
+                              setIsOfferDialogOpen(true)
+                            }}>
+                              Exact amount
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                          onClick={() => console.log('Save product')}
+                        >
+                          <Heart className="mr-2 h-4 w-4" />
+                          Save product
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                          onClick={() => console.log('Follow seller')}
+                        >
+                          <User className="mr-2 h-4 w-4" />
+                          Follow seller
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                          onClick={() => console.log('See seller details')}
+                        >
+                          <User className="mr-2 h-4 w-4" />
+                          See seller details
+                        </Button>
+                        <Button
+                          className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white"
+                          onClick={() => console.log('View on Facebook Marketplace')}
+                        >
+                          <Facebook className="mr-2 h-4 w-4" />
+                          Facebook Marketplace Listing
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+          {loading && <p className="text-center mt-4">Loading more products...</p>}
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product, index) => (
-            <Card key={product.id} ref={index === products.length - 1 ? lastProductElementRef : null}>
-              <CardHeader>
-                <img
-                  alt={product.name}
-                  className="aspect-square object-cover rounded-md"
-                  height="200"
-                  src={product.image}
-                  width="200"
-                />
-              </CardHeader>
-              <CardContent>
-                <CardTitle>{product.name}</CardTitle>
-                <p className="text-muted-foreground">${product.price.toFixed(2)}</p>
-              </CardContent>
-              <CardFooter>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="w-full">View Details</Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>{product.name}</DialogTitle>
-                      <DialogDescription>
-                        Interact with this listing or the seller.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start"
-                        onClick={() => console.log('Message seller')}
-                      >
-                        <MessageCircle className="mr-2 h-4 w-4" />
-                        Message seller
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start"
-                        onClick={() => console.log('Set alert for listing')}
-                      >
-                        <BellIcon className="mr-2 h-4 w-4" />
-                        Set alert for listing
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" className="w-full justify-between">
-                            <span className="flex items-center">
-                              <DollarSign className="mr-2 h-4 w-4" />
-                              Send offer
-                            </span>
-                            <ChevronDown className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                          <DropdownMenuItem onClick={() => {
-                            setOfferType('percentage')
-                            setIsOfferDialogOpen(true)
-                          }}>
-                            Percentage off
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => {
-                            setOfferType('exact')
-                            setIsOfferDialogOpen(true)
-                          }}>
-                            Exact amount
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start"
-                        onClick={() => console.log('Save product')}
-                      >
-                        <Heart className="mr-2 h-4 w-4" />
-                        Save product
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start"
-                        onClick={() => console.log('Follow seller')}
-                      >
-                        <User className="mr-2 h-4 w-4" />
-                        Follow seller
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start"
-                        onClick={() => console.log('See seller details')}
-                      >
-                        <User className="mr-2 h-4 w-4" />
-                        See seller details
-                      </Button>
-                      <Button
-                        className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white"
-                        onClick={() => console.log('View on Facebook Marketplace')}
-                      >
-                        <Facebook className="mr-2 h-4 w-4" />
-                        Facebook Marketplace Listing
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-        {loading && <p className="text-center mt-4">Loading more products...</p>}
       </main>
       <Dialog open={isOfferDialogOpen} onOpenChange={setIsOfferDialogOpen}>
         <DialogContent>
