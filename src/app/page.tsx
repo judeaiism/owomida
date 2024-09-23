@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Bell, MessageCircle, Search, ShoppingCart, ChevronDown, User, Bell as BellIcon, Heart, DollarSign, Facebook, Users, Bookmark, Car, Home, Shirt } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 
 // Mock product data with real images
 const mockProducts = [
@@ -47,6 +48,7 @@ const allCategories = [
 ]
 
 export default function MarketplaceLanding() {
+  const router = useRouter()
   const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false)
   const [offerType, setOfferType] = useState<'percentage' | 'exact'>('percentage')
   const [offerValue, setOfferValue] = useState('')
@@ -54,6 +56,7 @@ export default function MarketplaceLanding() {
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('All')
 
   const observer = useRef<IntersectionObserver | null>(null)
   const lastProductElementRef = useCallback((node: HTMLDivElement | null) => {
@@ -82,6 +85,10 @@ export default function MarketplaceLanding() {
       setHasMore(products.length < 100) // Load up to 100 products for this example
     }, 1000)
   }
+
+  const filteredProducts = selectedCategory === 'All' 
+    ? products 
+    : products.filter(product => product.category.toLowerCase() === selectedCategory.toLowerCase())
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -145,58 +152,50 @@ export default function MarketplaceLanding() {
             <DropdownMenu open={isCategoryOpen} onOpenChange={setIsCategoryOpen}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-full md:w-[180px] justify-between">
-                  All Categories
+                  {selectedCategory}
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuItem>
-                  <Users className="mr-2 h-4 w-4" />
-                  <span>Buy & sell groups</span>
+                <DropdownMenuItem onSelect={() => setSelectedCategory('All')}>
+                  All Categories
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bookmark className="mr-2 h-4 w-4" />
-                  <span>Saved items</span>
-                </DropdownMenuItem>
+                <Link href="/categories/buy-and-sell-groups">
+                  <DropdownMenuItem>
+                    <Users className="mr-2 h-4 w-4" />
+                    <span>Buy & sell groups</span>
+                  </DropdownMenuItem>
+                </Link>
+                <Link href="/categories/saved-items">
+                  <DropdownMenuItem>
+                    <Bookmark className="mr-2 h-4 w-4" />
+                    <span>Saved items</span>
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel>Top categories</DropdownMenuLabel>
-                <DropdownMenuItem>
-                  <Car className="mr-2 h-4 w-4" />
-                  <span>Vehicles</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Home className="mr-2 h-4 w-4" />
-                  <span>Rentals</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Shirt className="mr-2 h-4 w-4" />
-                  <span>Women's Clothing & Shoes</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Shirt className="mr-2 h-4 w-4" />
-                  <span>Men's Clothing & Shoes</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  <span>Furniture</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  <span>Electronics</span>
-                </DropdownMenuItem>
+                {['Vehicles', 'Rentals', "Women's Clothing & Shoes", "Men's Clothing & Shoes", 'Furniture', 'Electronics'].map((category) => (
+                  <Link key={category} href={`/categories/${encodeURIComponent(category.toLowerCase())}`}>
+                    <DropdownMenuItem>
+                      <span>{category}</span>
+                    </DropdownMenuItem>
+                  </Link>
+                ))}
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel>All categories</DropdownMenuLabel>
-                {allCategories.map((category, index) => (
-                  <DropdownMenuItem key={index}>
-                    <span>{category}</span>
-                  </DropdownMenuItem>
+                {allCategories.map((category) => (
+                  <Link key={category} href={`/categories/${encodeURIComponent(category.toLowerCase())}`}>
+                    <DropdownMenuItem>
+                      <span>{category}</span>
+                    </DropdownMenuItem>
+                  </Link>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product, index) => (
-              <Card key={product.id} ref={index === products.length - 1 ? lastProductElementRef : null}>
+            {filteredProducts.map((product, index) => (
+              <Card key={product.id} ref={index === filteredProducts.length - 1 ? lastProductElementRef : null}>
                 <CardHeader>
                   <img
                     alt={product.name}
