@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    viewTransitions: true,
+    // Replace 'viewTransitions' with a valid experimental option if needed
   },
 }
 

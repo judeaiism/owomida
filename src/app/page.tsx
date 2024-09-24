@@ -156,7 +156,7 @@ export default function MarketplaceLanding() {
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
+              <DropdownMenuContent className="w-56 max-h-60 overflow-y-auto">
                 <DropdownMenuItem onSelect={() => setSelectedCategory('All')}>
                   All Categories
                 </DropdownMenuItem>
